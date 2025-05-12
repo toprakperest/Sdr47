@@ -1,0 +1,82 @@
+{
+  "comment": "Yeraltı Radarı için Frekans Profilleri - Farklı hedefler ve zemin koşulları için optimize edilmiş SDR ayarları",
+  "profiles": [
+    {
+      "profile_name": "genel_amacli_orta_derinlik",
+      "description": "Genel amaçlı taramalar için, 2-5 metre arası derinlik hedeflenir. Çoğu zemin tipi için başlangıç noktası.",
+      "sdr_params": {
+        "center_freq_mhz": 250,
+        "sample_rate_msps": 5,
+        "rx_rf_bandwidth_mhz": 5,
+        "tx_pulse_type": "gaussian_monocycle", "comment_tx_pulse": "Bu parametre sdr_controller tarafından yorumlanıp uygun dalga formu oluşturulur",
+        "tx_pulse_width_ns": 10, "comment_tx_pulse_width": "Darbe genişliği, merkez frekansla ilişkilidir (örn: 1/center_freq)",
+        "rx_gain_chan0_db": 40,
+        "rx_gain_chan1_db": 40, "comment_rx_gain_chan1": "Eğer RX2 kullanılıyorsa"
+      },
+      "processing_params": {
+        "depth_estimation_velocity_m_ns": 0.100, "comment_velocity": "Ortalama bir zemin için (örn: orta nemli toprak)"
+      }
+    },
+    {
+      "profile_name": "sig_yuzey_detayli_arama",
+      "description": "Yüzeye yakın (0-1 metre) küçük hedeflerin detaylı tespiti için yüksek frekans.",
+      "sdr_params": {
+        "center_freq_mhz": 900,
+        "sample_rate_msps": 20,
+        "rx_rf_bandwidth_mhz": 20,
+        "tx_pulse_type": "gaussian_monocycle",
+        "tx_pulse_width_ns": 2,
+        "rx_gain_chan0_db": 25
+      },
+      "processing_params": {
+        "depth_estimation_velocity_m_ns": 0.120, "comment_velocity": "Kuru kumlu veya çakıllı zeminler için uygun olabilir"
+      }
+    },
+    {
+      "profile_name": "derin_buyuk_nesne_arama",
+      "description": "Daha derinlerdeki (5+ metre) büyük yapıların veya boşlukların tespiti için düşük frekans.",
+      "sdr_params": {
+        "center_freq_mhz": 100,
+        "sample_rate_msps": 2.5,
+        "rx_rf_bandwidth_mhz": 2.5,
+        "tx_pulse_type": "ricker_wavelet", "comment_tx_pulse": "Düşük frekanslar için daha geniş bantlı bir darbe",
+        "tx_pulse_width_ns": 20, "comment_tx_pulse_width": "Daha uzun darbe genişliği",
+        "rx_gain_chan0_db": 50
+      },
+      "processing_params": {
+        "depth_estimation_velocity_m_ns": 0.080, "comment_velocity": "Nemli, killi zeminler için daha düşük hız"
+      }
+    },
+    {
+      "profile_name": "metal_tespiti_optimize",
+      "description": "Metalik hedeflerin tespitini optimize etmek için ayarlar. Genellikle orta frekanslar iyi çalışır.",
+      "sdr_params": {
+        "center_freq_mhz": 400,
+        "sample_rate_msps": 10,
+        "rx_rf_bandwidth_mhz": 10,
+        "tx_pulse_type": "gaussian_monocycle",
+        "tx_pulse_width_ns": 5,
+        "rx_gain_chan0_db": 35
+      },
+      "processing_params": {
+        "depth_estimation_velocity_m_ns": 0.110
+      }
+    },
+    {
+      "profile_name": "bosluk_tespiti_kalker_zemin",
+      "description": "Kalkerli arazide boşluk (mağara, oda) tespiti için optimize edilmiş ayarlar.",
+      "sdr_params": {
+        "center_freq_mhz": 150, "comment_freq": "Kalkerde iyi penetrasyon için daha düşük frekanslar tercih edilebilir.",
+        "sample_rate_msps": 3,
+        "rx_rf_bandwidth_mhz": 3,
+        "tx_pulse_type": "gaussian_monocycle",
+        "tx_pulse_width_ns": 15,
+        "rx_gain_chan0_db": 45
+      },
+      "processing_params": {
+        "depth_estimation_velocity_m_ns": 0.120, "comment_velocity": "Kuru kalker için tipik hız"
+      }
+    }
+  ]
+}
+

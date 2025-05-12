@@ -1,0 +1,67 @@
+# Yeraltı Radar Sistemi - Genel Ayarlar
+# settings.yaml
+
+sdr_settings:
+  default_ip: "ip:192.168.2.1"  # PlutoSDR için varsayılan IP adresi
+  default_sample_rate: 2500000    # Varsayılan örnekleme hızı (örneğin 2.5 Msps)
+  default_rx_buffer_size: 4096   # Varsayılan RX tampon boyutu
+  default_center_freq: 433000000 # Varsayılan merkez frekansı (örneğin 433 MHz)
+  default_rx_rf_bandwidth: 2000000 # Varsayılan RX RF bant genişliği (örneğin 2 MHz)
+  # Kanal 0 için varsayılan kazanç ayarları
+  default_gain_control_mode_chan0: "manual" # slow_attack, fast_attack, manual
+  default_rx_hardware_gain_chan0: 30.0      # Manuel kazanç (dB)
+  # Kanal 1 için varsayılan kazanç ayarları (eğer donanım destekliyorsa)
+  default_gain_control_mode_chan1: "manual"
+  default_rx_hardware_gain_chan1: 30.0
+  # Varsayılan TX zayıflatma (negatif kazanç olarak)
+  default_tx_hardware_gain_chan0: -10.0 # dB
+  default_tx_hardware_gain_chan1: -80.0 # dB (kullanılmıyorsa yüksek zayıflatma)
+
+scan_parameters:
+  default_scan_mode: "Hibrit Tarama (TX1-RX1-RX2)" # "Ana Tarama (TX1-RX1)", "Kalibrasyon (RX2 Dinleme)"
+  default_depth_m: 10              # Hedeflenen maksimum tarama derinliği (metre) - bu bilgi hız ve zamanla hesaplanır
+  trace_interval_cm: 5           # İzler arası mesafe (santimetre)
+  scan_speed_cm_s: 10            # Önerilen maksimum tarama hızı (santimetre/saniye)
+
+algorithm_settings:
+  stft_nperseg: 128               # STFT için segment başına düşen örnek sayısı
+  stft_noverlap_ratio: 0.5       # STFT için segmentler arası örtüşme oranı (nperseg cinsinden)
+  wavelet_cwt_scales_min: 1
+  wavelet_cwt_scales_max_ratio: 0.25 # Sinyal uzunluğuna göre maksimum ölçek oranı
+  wavelet_cwt_default: "cmor1.5-1.0" # Varsayılan CWT dalgacığı
+  wavelet_dwt_default: "db4"       # Varsayılan DWT dalgacığı
+  dwt_level: null                  # Null ise otomatik hesaplanır
+
+ai_model_paths:
+  cnn_model_path: "models/gpr_cnn_v1.h5" # Eğitilmiş CNN modelinin yolu
+  lstm_model_path: "models/gpr_lstm_v1.h5" # Eğitilmiş LSTM modelinin yolu
+  # Modeller yoksa, ai_models.py içinde varsayılan modeller oluşturulur.
+
+ui_settings:
+  visualization_update_interval_ms: 500 # Görselleştirme güncelleme sıklığı (milisaniye)
+  mobile_server_ip: "0.0.0.0"         # Mobil uygulama için ana bilgisayarın dinleyeceği IP
+  mobile_server_port: 8080            # Mobil uygulama için ana bilgisayarın dinleyeceği port
+
+logging:
+  log_file: "logs/system_activity.log"
+  log_level: "INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  raw_data_log_dir: "raw_data_captures/"
+  processed_data_log_dir: "processed_data_logs/"
+  log_raw_data: true
+  log_processed_data: true
+
+calibration:
+  calibration_data_dir: "calibration_profiles/"
+  rx2_ground_cal_duration_sec: 15
+  noise_profile_duration_sec: 10
+
+geology:
+  # Jeoloji veritabanı dosyası data/geology_db.py içinde tanımlanmıştır.
+  # Bu ayar, alternatif bir dosya yolu belirtmek için kullanılabilir.
+  geology_db_file: null # "data/tur_abdin_custom_geology.json" gibi
+
+# Frekans Profilleri: Farklı hedefler ve zeminler için optimize edilmiş frekans ayarları
+# Bu ayarlar freq_profiles.json dosyasında daha detaylı olarak saklanır.
+# Burası genel bir referans veya varsayılan profil adı için olabilir.
+default_frequency_profile: "genel_amacli_orta_derinlik"
+
